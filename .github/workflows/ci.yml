@@ -1,0 +1,59 @@
+name: ci
+
+
+on:
+push:
+branches: [ main ]
+pull_request:
+branches: [ main ]
+
+
+jobs:
+build:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v4
+
+
+- name: Setup Go
+uses: actions/setup-go@v5
+with:
+go-version: '1.22'
+
+
+- name: Setup C++
+uses: aminya/setup-cpp@v1
+with:
+compiler: 'clang'
+cmake: true
+ninja: true
+
+
+- name: Setup Node
+uses: actions/setup-node@v4
+with:
+node-version: '20'
+
+
+- name: Install protoc
+uses: arduino/setup-protoc@v3
+with:
+repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+
+- name: Generate protobuf
+run: make proto
+
+
+- name: Build Go services
+run: make build-go
+
+
+- name: Build C++
+run: make build-cpp
+
+
+- name: Type check web & launcher
+run: |
+cd web && npm ci && npm run build --if-present
+cd ../launcher && npm ci && npm run build --if-present
