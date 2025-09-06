@@ -42,14 +42,50 @@ jobs:
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
           echo "$HOME/go/bin" >> $GITHUB_PATH
 
-      - name: Generate protobuf
-        run: make proto
+      - name: Prepare proto output dirs
+        run: |
+          mkdir -p server/gateway/internal/proto
+          mkdir -p server/matchmaker/internal/proto
+          mkdir -p client/src
+          mkdir -p server/orchestrator/src
 
-      - name: Build Go services
-        run: make build-go
+      - name: Generate protobuf (Go + C++)
+        run: |
+          protoc -I proto \
+            --go_out=server/gateway/internal/proto --go_opt=paths=source_relative \
+            --go-grpc_out=server/gateway/internal/proto --go-grpc_opt=paths=source_relative \
+            proto/*.proto
 
-      - name: Build C++ targets
-        run: make build-cpp
+          protoc -I proto \
+            --go_out=server/matchmaker/internal/proto --go_opt=paths=source_relative \
+            --go-grpc_out=server/matchmaker/internal/proto --go-grpc_opt=paths=source_relative \
+            proto/*.proto
+
+          protoc -I proto --cpp_out=client/src proto/*.proto
+          protoc -I proto --cpp_out=server/orchestrator/src proto/*.proto
+
+      - name: Build Go services (gateway)
+        working-directory: server/gateway
+        run: go build ./...
+
+      - name: Build Go services (matchmaker)
+        working-directory: server/matchmaker
+        run: go build ./...
+
+      - name: Build client (C++)
+        run: |
+          cmake -S client -B client/build
+          cmake --build client/build -j
+
+      - name: Build orchestrator (C++)
+        run: |
+          cmake -S server/orchestrator -B server/orchestrator/build
+          cmake --build server/orchestrator/build -j
+
+      - name: Build sbc-agent (C++)
+        run: |
+          cmake -S sbc-agent -B sbc-agent/build
+          cmake --build sbc-agent/build -j
 
       - name: Build web
         working-directory: web
