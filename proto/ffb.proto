@@ -1,0 +1,11 @@
+syntax = "proto3";
+package racing;
+option go_package = "github.com/you/ffb-racing-platform/server/pkg/racingpb";
+
+
+message ForceFeedback {
+uint64 timestamp_ms = 1;
+float torque_nm = 2; // signed torque
+uint32 effects_mask = 3; // bitmask for surface/kerb/impact
+uint32 duration_ms = 4; // optional duration for impulses
+}

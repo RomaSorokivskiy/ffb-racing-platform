@@ -1,0 +1,13 @@
+syntax = "proto3";
+package racing;
+option go_package = "github.com/you/ffb-racing-platform/server/pkg/racingpb";
+
+
+message ControlInput {
+uint64 timestamp_ms = 1;
+float steer_norm = 2; // -1..1
+float throttle = 3; // 0..1
+float brake = 4; // 0..1
+int32 gear = 5; // optional
+bool handbrake = 6;
+}

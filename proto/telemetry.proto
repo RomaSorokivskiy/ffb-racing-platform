@@ -1,0 +1,26 @@
+syntax = "proto3";
+package racing;
+option go_package = "github.com/you/ffb-racing-platform/server/pkg/racingpb";
+
+
+message CarTelemetry {
+uint64 timestamp_ms = 1;
+float speed_mps = 2;
+float battery_voltage = 3;
+float esc_temp_c = 4;
+float motor_current_a = 5;
+float steering_angle_deg = 6;
+float imu_ax = 7; // m/s^2
+float imu_ay = 8; // m/s^2
+float yaw_rate_dps = 9;
+float wheel_slip = 10;
+}
+
+
+message HealthMetrics {
+uint64 timestamp_ms = 1;
+bool video_ok = 2;
+float rtt_ms = 3;
+float packet_loss_pct = 4;
+float sbc_temp_c = 5;
+}

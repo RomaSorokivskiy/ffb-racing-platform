@@ -1,0 +1,24 @@
+syntax = "proto3";
+package racing;
+option go_package = "github.com/you/ffb-racing-platform/server/pkg/racingpb";
+
+
+enum Role { ROLE_UNSPECIFIED = 0; PLAYER = 1; OPERATOR = 2; ADMIN = 3; }
+
+
+enum RoomState { ROOM_INIT = 0; ROOM_WAITING = 1; ROOM_RUNNING = 2; ROOM_FINISHED = 3; }
+
+
+message RoomConfig {
+string room_id = 1;
+uint32 max_players = 2; // 1 per car in MVP
+uint32 target_fps = 3; // video target
+}
+
+
+message SessionState {
+string room_id = 1;
+RoomState state = 2;
+uint64 started_at_ms = 3;
+uint64 elapsed_ms = 4;
+}
