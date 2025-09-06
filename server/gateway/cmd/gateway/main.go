@@ -1,22 +1,22 @@
 package main
 
-
 import (
-"log"
-"net/http"
+	"log"
+	"net/http"
+
+	"ffb.local/gateway/internal/signaling"
 )
 
-
 func main() {
-mux := http.NewServeMux()
-// TODO: add /signal (WebRTC) and /quic endpoints
-mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-w.WriteHeader(http.StatusOK)
-_, _ = w.Write([]byte("ok"))
-})
+	s := signaling.New()
 
+	mux := http.NewServeMux()
+	mux.HandleFunc("/health", s.Health)
+	mux.HandleFunc("/signal", s.Signal)
 
-srv := &http.Server{Addr: ":8080", Handler: mux}
-log.Println("gateway listening :8080")
-log.Fatal(srv.ListenAndServe())
+	handler := s.CORS(s.Log(mux))
+	srv := &http.Server{Addr: ":8080", Handler: handler}
+
+	log.Println("gateway listening :8080")
+	log.Fatal(srv.ListenAndServe())
 }

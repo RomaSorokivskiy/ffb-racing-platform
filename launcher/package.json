@@ -4,10 +4,14 @@
   "private": true,
   "main": "dist/main.js",
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"electron .\"",
-    "build": "tsc",
+    "build:ts": "tsc",
+    "build:assets": "node scripts/copy-assets.js",
+    "build": "npm run build:ts && npm run build:assets",
+    "build:watch": "concurrently \"tsc -w\" \"node scripts/copy-assets.js --watch\"",
+    "dev": "concurrently \"npm:build:watch\" \"electron .\"",
     "dist": "npm run build && electron-builder"
   },
+
   "devDependencies": {
     "@types/node": "^20.0.0",
     "concurrently": "^8.2.2",

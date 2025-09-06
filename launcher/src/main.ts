@@ -1,12 +1,20 @@
 ﻿import { app, BrowserWindow } from "electron";
+import { join } from "path";
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1000,
-    height: 700,
-    webPreferences: { nodeIntegration: false, contextIsolation: true }
+    width: 1100,
+    height: 780,
+    webPreferences: {
+      preload: join(__dirname, "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false
+    }
   });
-  win.loadURL("data:text/html,<h1>FFB Launcher</h1><p>Login • Stats • Start Game</p>");
+
+  // HTML у dist/renderer — копіюється скриптом build:assets
+  const htmlPath = join(__dirname, "renderer", "index.html");
+  win.loadFile(htmlPath);
 }
 
 app.whenReady().then(() => {

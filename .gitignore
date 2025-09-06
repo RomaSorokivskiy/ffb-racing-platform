@@ -3,7 +3,7 @@
 Thumbs.db
 .vscode/
 .vs/
-
+.idea
 # Node / Web
 node_modules/
 web/.next/
