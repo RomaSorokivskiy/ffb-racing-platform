@@ -1,0 +1,40 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.vs/
+
+# Node / Web
+node_modules/
+web/.next/
+web/out/
+launcher/dist/
+launcher/release/
+
+# CMake / Builds
+**/build/
+CMakeFiles/
+CMakeCache.txt
+*.vcxproj*
+*.sln
+*.ilk
+*.pdb
+*.exe
+*.dll
+*.lib
+*.obj
+*.log
+
+# Go
+bin/
+*.test
+
+# Proto generated (ми не комітимо автоген)
+server/**/internal/proto/
+client/src/*.pb.*
+server/orchestrator/src/*.pb.*
+
+# Misc
+*.zip
+*.7z
+*.tar.gz

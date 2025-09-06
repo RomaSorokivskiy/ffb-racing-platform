@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+gateway:
+build: ./
+image: ffb/gateway:dev
+command: ["/bin/sh","-c","cd server/gateway && go run ./cmd/gateway"]
+ports: ["8080:8080"]
+matchmaker:
+image: ffb/matchmaker:dev
+command: ["/bin/sh","-c","cd server/matchmaker && go run ./cmd/matchmaker"]
+ports: ["8081:8081"]

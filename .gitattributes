@@ -1,1 +1,17 @@
+* text=auto eol=lf
 
+# Windows-скрипти
+*.bat eol=crlf
+*.cmd eol=crlf
+*.ps1 eol=crlf
+
+# Shell-скрипти
+*.sh eol=lf
+
+# Маркуємо бінарники
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
