@@ -1,0 +1,54 @@
+:root {
+  --bg: #0b0e14;
+  --panel: #121723;
+  --muted: #7a88a1;
+  --text: #e6edf3;
+  --primary: #22c55e;
+  --danger: #ef4444;
+  --border: #1e2636;
+  --accent: #60a5fa;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; color: var(--text); background: var(--bg);
+  font: 14px/1.4 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+  display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 56px 1fr;
+  grid-template-areas: "top top" "nav main";
+}
+header {
+  grid-area: top; background: var(--panel); border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; padding: 0 16px; gap:12px;
+}
+header h1 { font-size:16px; margin:0; letter-spacing:0.3px; }
+nav {
+  grid-area: nav; background: var(--panel); border-right:1px solid var(--border);
+  padding:12px;
+}
+nav .item {
+  display:flex; align-items:center; gap:8px; padding:10px 12px; margin:6px 0;
+  border-radius:10px; color: var(--muted); cursor:pointer;
+}
+nav .item.active, nav .item:hover { background:#0f1522; color:#cdd6e3; }
+main { grid-area: main; padding: 16px 20px; }
+.card {
+  background: #0f1320; border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+h2 { margin:0 0 12px 0; font-size:18px; }
+.controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+input, select, button {
+  background:#0b1020; color:var(--text); border:1px solid var(--border);
+  border-radius:8px; padding:8px 10px; outline:none;
+}
+button.primary { background: #12331f; border-color:#1e3a2d; color:#cdebd7; }
+button.primary:hover { background:#0f2a19; }
+button.ghost { background:transparent; }
+.status { margin-left:auto; color: var(--muted); }
+.table { width:100%; border-collapse:collapse; }
+.table th, .table td { border-bottom: 1px solid var(--border); padding:8px 6px; text-align:left; }
+.badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; }
+.badge.free { background:#0e1a2a; color:#9cc2ff; }
+.badge.busy { background:#2a1111; color:#ff9c9c; }
+.badge.reserved { background:#1a2411; color:#c3f087; }
+.small { font-size:12px; color:var(--muted); }

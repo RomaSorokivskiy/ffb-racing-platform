@@ -3,36 +3,72 @@
 <head>
   <meta charset="utf-8" />
   <title>FFB Launcher</title>
-  <!-- CSP: дозволяємо запити на localhost:8081 (matchmaker) і :8080 (gateway) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' http://localhost:8081 http://localhost:8080; img-src 'self' data:;">
-  <style>
-    body { font-family: ui-sans-serif, system-ui; padding: 16px; }
-    input, button { padding: 8px; margin: 4px; }
-    table{ border-collapse:collapse; width:100%; margin-top:12px }
-    th,td{ border:1px solid #ddd; padding:8px; }
-    #status { margin-top:8px }
-  </style>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<h1>FFB Launcher</h1>
+<header>
+  <h1>FFB Racing — Launcher</h1>
+  <div class="status" id="status">starting…</div>
+</header>
 
-<section>
-  <h3>Claim / Release car</h3>
-  <label>User ID: <input id="userId" value="user-1" /></label>
-  <button id="btnClaim">Claim</button>
-  <label>Car ID: <input id="carId" placeholder="car-1" /></label>
-  <button id="btnRelease">Release</button>
-  <p id="status"></p>
-</section>
+<nav>
+  <div class="item active" data-tab="home">🏠 Home</div>
+  <div class="item" data-tab="cars">🚗 Cars</div>
+  <div class="item" data-tab="sessions">🎮 Sessions</div>
+  <div class="item" data-tab="settings">⚙️ Settings</div>
+</nav>
 
-<section>
-  <h3>Rooms</h3>
-  <button id="btnLoadRooms">Load Rooms</button>
-  <table id="roomsTable"></table>
-</section>
+<main>
+  <!-- HOME -->
+  <section class="tab" id="tab-home">
+    <div class="card">
+      <h2>Quick Start</h2>
+      <div class="controls">
+        <label>User ID <input id="userId" value="user-1" /></label>
+        <label>TTL (sec) <input id="ttl" type="number" min="30" max="600" value="120" /></label>
+        <button class="primary" id="btnClaim">Claim</button>
+        <label>Car ID <input id="carId" placeholder="car-1" /></label>
+        <button class="ghost" id="btnRelease">Release</button>
+        <button class="ghost" id="btnCreateSession">Create Session</button>
+      </div>
+      <p class="small">Claim резервує вільну машинку. Release звільняє. Session створює JWT для гри.</p>
+    </div>
 
-<!-- ВАЖЛИВО: файл копіюється у dist/renderer/, а main.ts вантажить саме dist -->
+    <div class="card">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <h2>Live Cars</h2>
+        <button class="ghost" id="btnLoadRooms">Reload</button>
+      </div>
+      <table class="table" id="roomsTable"></table>
+    </div>
+  </section>
+
+  <!-- CARS -->
+  <section class="tab" id="tab-cars" style="display:none">
+    <div class="card"><h2>Garage</h2><p class="small">Тут буде редактор ліврей і інвентар (у наступних ітераціях).</p></div>
+  </section>
+
+  <!-- SESSIONS -->
+  <section class="tab" id="tab-sessions" style="display:none">
+    <div class="card"><h2>Sessions</h2><p class="small">Журнал сесій, історія, рейтинги — скоро.</p></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="tab" id="tab-settings" style="display:none">
+    <div class="card">
+      <h2>Settings</h2>
+      <div class="controls">
+        <label>Gateway <input id="cfgGateway" /></label>
+        <label>Matchmaker <input id="cfgMatchmaker" /></label>
+        <button class="primary" id="btnSaveCfg">Save</button>
+      </div>
+      <p class="small">Перезапустіть Launcher після зміни конфігурації.</p>
+    </div>
+  </section>
+</main>
+
 <script src="./renderer.js" defer></script>
 </body>
 </html>
